@@ -1,0 +1,996 @@
+<html>
+<head>
+<title>AO Implant Designer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+
+body
+{
+ background-color: #15364b;
+ border: 1px solid #07f6d9;
+ color: #59f6f6;
+}
+
+.button
+{
+ background-color: #0a262f;
+ color: #59f6f6;
+}
+
+.tdLight
+{
+ color:white;
+}
+
+.option-norm
+{
+ background-color:white;
+}
+.option-jobe
+{
+ background-color:lightgreen;
+}
+
+select
+{
+ width:130px;
+}
+
+.modal-button 
+{
+ background-color: #0a262f;
+ color: #59f6f6;
+ width: 110px;
+}
+
+.modal-list 
+{
+ width: 150px;
+ background-color: #15364b;
+ color: #59f6f6;
+}
+
+.modal /* background */ 
+{
+ display: none;
+ position: fixed;
+ z-index: 1; /* top */
+ padding-top:100px;
+ left:0;
+ top:0;
+ width:100%;
+ height:100%;
+ overflow:auto;
+ background-color: rgb(0,0,0);
+ background-color: rgba(0,0,0,0.4);
+}
+.modal-content
+{
+ position:relative;
+ background-color: #15364b;
+ margin:auto;
+ padding:0;
+ border: 1px solid #07f6d9;
+ width:280px;
+ box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+ -webkit-animation-name: animatetop;
+ -webkit-animation-duration: 0.4s;
+ animation-name:animatetop;
+ animation-duration:0.4s;
+}
+
+@-webkit-keyframes animatetop 
+{
+ from { top: -300px; opacity: 0; }
+ to { top: 0; opacity: 1; }
+}
+
+@keyframes animatetop 
+{
+ from { top: -300px; opacity: 0; }
+ to { top: 0; opacity: 1; }
+}
+
+
+</style>
+</head>
+<body>
+<form id="Main" action="" method="get">
+<div id="divToolBar">
+ AO Implants Actions: 
+ <input type="button" class="button" id="btnClear" value="Clear Implants" onclick="btnClear_Click();">
+ <input type="button" class="button" id="btnSpec"  value="Find Clusters" onclick="divSpecific_Open();">
+ <input type="submit" class="button" value="Prepare Bookmark">
+ </div>
+
+<div id="divCBO">
+<table id="tblCBO">
+ <tr>
+  <td>
+   <table id="tblImplants">
+    <tr><td>Implants</td></tr>
+    <tr><td class="tdLight">Chest</td></tr>
+    <tr><td class="tdLight">Ear</td></tr>
+    <tr><td class="tdLight">Eye</td></tr>
+    <tr><td class="tdLight">Feet</td></tr>
+    <tr><td class="tdLight">Head</td></tr>
+    <tr><td class="tdLight">Left Arm</td></tr>
+    <tr><td class="tdLight">Left Hand</td></tr>
+    <tr><td class="tdLight">Left Wrist</td></tr>
+    <tr><td class="tdLight">Legs</td></tr>
+    <tr><td class="tdLight">Right Arm</td></tr>
+    <tr><td class="tdLight">Right Hand</td></tr>
+    <tr><td class="tdLight">Right Wrist</td></tr>
+    <tr><td class="tdLight">Waist</td></tr>
+   </table>   
+  </td>
+  <td>
+   <table id="tblFaded">
+    <tr><td align="center">Faded</td></tr>
+    <tr><td><select name="cf1" id="cboFadeChest" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cf2" id="cboFadeEar" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cf3" id="cboFadeEye" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cf4" id="cboFadeFeet" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cf5" id="cboFadeHead" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cf6" id="cboFadeLArm" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cf7" id="cboFadeLHand" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cf8" id="cboFadeLWrist" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cf9" id="cboFadeLeg" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cf10" id="cboFadeRArm" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cf11" id="cboFadeRHand" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cf12" id="cboFadeRWrist" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cf13" id="cboFadeWaist" onchange="DropDown_Change();"/></td></tr>
+   </table>
+  </td>
+  <td>
+   <table id="tblBright">
+    <tr><td align="center">Bright</td></tr>
+    <tr><td><select name="cb1" id="cboBrightChest" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cb2" id="cboBrightEar" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cb3" id="cboBrightEye" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cb4" id="cboBrightFeet" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cb5" id="cboBrightHead" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cb6" id="cboBrightLArm" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cb7" id="cboBrightLHand" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cb8" id="cboBrightLWrist" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cb9" id="cboBrightLeg" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cb10" id="cboBrightRArm" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cb11" id="cboBrightRHand" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cb12" id="cboBrightRWrist" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cb13" id="cboBrightWaist" onchange="DropDown_Change();"/></td></tr>
+   </table>
+  </td>
+  <td>
+   <table id="tblShine">
+    <tr><td align="center">Shining</td></tr>
+    <tr><td><select name="cs1" id="cboShineChest" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cs2" id="cboShineEar" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cs3" id="cboShineEye" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cs4" id="cboShineFeet" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cs5" id="cboShineHead" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cs6" id="cboShineLArm" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cs7" id="cboShineLHand" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cs8" id="cboShineLWrist" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cs9" id="cboShineLeg" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cs10" id="cboShineRArm" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cs11" id="cboShineRHand" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cs12" id="cboShineRWrist" onchange="DropDown_Change();"/></td></tr>
+    <tr><td><select name="cs13" id="cboShineWaist" onchange="DropDown_Change();"/></td></tr>
+   </table>
+  </td>
+  <td valign="top">
+   <table id="tblShopping">
+    <tr><td colspan="4" align="center">Shopping List</td></tr>
+    <tr>
+     <td>
+      <table>
+       <tr><td>Implants</td></tr>
+       <tr><td><select style="width:150px;" id="listShopImplants" size="13"/>
+       </table>
+     </td>
+     <td>
+      <table>
+       <tr><td>Faded</td></tr>
+       <tr><td><select style="width:150px;" id="listShopFaded" size="13"/>
+      </table>
+     </td>
+     <td>
+      <table>
+       <tr><td>Bright</td></tr>
+       <tr><td><select style="width:150px;" id="listShopBright" size="13"/>
+      </table>
+     </td>
+     <td>
+      <table>
+       <tr><td>Shining</td></tr>
+       <tr><td><select style="width:150px;" id="listShopShining" size="13"/>
+      </table>
+     </td>
+    </tr>
+    </table>
+   </td>
+  </tr>
+</table> 
+</div><!-- divCBO -->
+
+<div id="divSpecific" class="modal">
+<div class="modal-content">
+<table>
+ <tr>
+  <td>
+   <table>
+    <tr><td><input type="button" class="modal-button" value="Abilities" onclick="LoadSpecific(ImprovementTypeAbility);"></td></tr>
+    <tr><td><input type="button" class="modal-button" value="Body&Def" onclick="LoadSpecific(ImprovementTypeBodyDef);"></td></tr>
+    <tr><td><input type="button" class="modal-button" value="Melee" onclick="LoadSpecific(ImprovementTypeMelee);"></td></tr>
+    <tr><td><input type="button" class="modal-button" value="Melee Spec" onclick="LoadSpecific(ImprovementTypeMeleeSpec);"></td></tr>
+    <tr><td><input type="button" class="modal-button" value="Ranged" onclick="LoadSpecific(ImprovementTypeRanged);"></td></tr>
+    <tr><td><input type="button" class="modal-button" value="Ranged Spec" onclick="LoadSpecific(ImprovementTypeRangedSpec);"></td></tr>
+    <tr><td><input type="button" class="modal-button" value="Nanos" onclick="LoadSpecific(ImprovementTypeNanos);"></td></tr>
+    <tr><td><input type="button" class="modal-button" value="Explore" onclick="LoadSpecific(ImprovementTypeExplore);"></td></tr>
+    <tr><td><input type="button" class="modal-button" value="Combat&Heal" onclick="LoadSpecific(ImprovementTypeCombatHeal);"></td></tr>
+    <tr><td><input type="button" class="modal-button" value="Trade&Repair" onclick="LoadSpecific(ImprovementTypeTradeRepair);"></td></tr>
+    <tr><td><input type="button" class="modal-button" value="AC" onclick="LoadSpecific(ImprovementTypeAC);"></td></tr>
+    <tr><td><input type="button" class="modal-button" value="Max" onclick="LoadSpecific(ImprovementTypeMax);"></td></tr>
+    <tr><td><input type="button" class="modal-button" value="Jobe" onclick="LoadSpecific(ImprovementTypeJobe);"></td></tr>
+   </table>
+  </td>
+  <td valign="top">
+   <select id="listSpecifics" class="modal-list" size="20" onchange="listSpecifics_Change();" />
+  </td>
+  </tr>
+  <tr><td colspan="2" align="right"><input type="button" class="modal-button" value="Close" style="width:60px;" onclick="divSpecific_Close();"></td></tr>
+ </table>
+</div>
+</div>
+
+<div id="divShop" style="visibility:hidden;">
+</div><!-- divShop -->
+</form>
+<script language="javascript">
+
+var IsLoading=true;
+
+// Elements
+
+var divSpecific=document.getElementById("divSpecific");
+
+// Events
+
+function DropDown_Change()
+{
+ var cbo;
+ var i,k,e;
+
+ if (IsLoading==true)
+   return; // wait until entire form is loaded from querystring
+
+ DoShopping();
+}
+
+function btnClear_Click()
+{
+ var cbo;
+ var i;
+
+ for(i=0;i<FadedCBOs.length;i++)
+  {
+   cbo=FadedCBOs[i];
+   cbo.selectedIndex=0;
+  }
+ for(i=0;i<BrightCBOs.length;i++)
+  {
+   cbo=BrightCBOs[i];
+   cbo.selectedIndex=0;
+  }
+ for(i=0;i<ShiningCBOs.length;i++)
+  {
+   cbo=ShiningCBOs[i];
+   cbo.selectedIndex=0;
+  }
+ ClearShopping();
+}
+
+function divSpecific_Open()
+{
+ var list=document.getElementById("listSpecifics");
+ var i;
+
+ for(i=list.options.length-1; i>=0; i--)
+    list.remove(i);
+ divSpecific.style.display="block";
+}
+
+function divSpecific_Close()
+{
+ divSpecific.style.display="none";
+}
+
+window.onclick = function(event)
+{
+ if (event.target == divSpecific)
+   divSpecific.style.display="none";
+}
+
+function listSpecifics_Change()
+{
+ var list=document.getElementById("listSpecifics");
+ var item=list.options[list.selectedIndex];
+ var cbo;
+ var i,k;
+
+ for(i=0;i<FadedCBOs.length;i++)
+  {
+   cbo=FadedCBOs[i];
+   if (cbo.selectedIndex<1)
+    {
+     for(k=1;k<cbo.options.length;k++)  // 1st option is blank
+      {
+       if (cbo.options[k].value==item.value)
+         cbo.selectedIndex=k;
+      }
+    }
+  }
+ for(i=0;i<BrightCBOs.length;i++)
+  {
+   cbo=BrightCBOs[i];
+   if (cbo.selectedIndex<1)
+    {
+     for(k=1;k<cbo.options.length;k++)
+      {
+       if (cbo.options[k].value==item.value)
+         cbo.selectedIndex=k;
+      }
+    }
+  }
+ for(i=0;i<ShiningCBOs.length;i++)
+  {
+   cbo=ShiningCBOs[i];
+   if (cbo.selectedIndex<1)
+    {
+     for(k=1;k<cbo.options.length;k++)
+      {
+       if (cbo.options[k].value==item.value)
+         cbo.selectedIndex=k;
+      }
+    }
+  }
+}
+
+// utility functions
+
+function item(t,v)
+{
+ this.text=t;
+ this.value=v;
+}
+
+function DoShopping()
+{
+ var listImp=document.getElementById("listShopImplants");
+ var listFade=document.getElementById("listShopFaded");
+ var listBright=document.getElementById("listShopBright");
+ var listShine=document.getElementById("listShopShining");
+
+ var imps=new Array();
+ var faded=new Array();
+ var bright=new Array();
+ var shine=new Array();
+
+ var i;
+
+ ClearShopping(); // clear all lists
+
+ for (i=0;i<FadedCBOs.length;i++)
+  {
+   cbo=FadedCBOs[i];
+   if (cbo.selectedIndex>0)
+    {
+     DoShoppingImplant(imps,i);
+     DoShoppingClusters(faded,cbo.options[cbo.selectedIndex].value); // cluster id
+    }
+  } 
+ for (i=0;i<BrightCBOs.length;i++)
+  {
+   cbo=BrightCBOs[i];
+   if (cbo.selectedIndex>0)
+    {
+     DoShoppingImplant(imps,i);
+     DoShoppingClusters(bright,cbo.options[cbo.selectedIndex].value); // cluster id
+    }
+  } 
+ for (i=0;i<ShiningCBOs.length;i++)
+  {
+   cbo=ShiningCBOs[i];
+   if (cbo.selectedIndex>0)
+    {
+     DoShoppingImplant(imps,i);
+     DoShoppingClusters(shine,cbo.options[cbo.selectedIndex].value); // cluster id
+    }
+  } 
+
+ imps.sort(Sorter);
+ faded.sort(Sorter);
+ bright.sort(Sorter);
+ shine.sort(Sorter);
+
+ for(i=0;i<imps.length;i++)
+  {
+   e=document.createElement("option");
+   e.text=imps[i].text;
+   e.value=imps[i].value;
+   listImp.options.add(e);
+  }
+ for(i=0;i<faded.length;i++)
+  {
+   e=document.createElement("option");
+   e.text=faded[i].text;
+   e.value=faded[i].value;
+   listFade.options.add(e);
+  }
+ for(i=0;i<bright.length;i++)
+  {
+   e=document.createElement("option");
+   e.text=bright[i].text;
+   e.value=bright[i].value;
+   listBright.options.add(e);
+  }
+ for(i=0;i<shine.length;i++)
+  {
+   e=document.createElement("option");
+   e.text=shine[i].text;
+   e.value=shine[i].value;
+   listShine.options.add(e);
+  }
+}
+
+function Sorter(a,b)
+{
+ if (a.text>b.text) return 1;
+ if (a.text<b.text) return -1;
+ return 0;
+}
+
+function ClearShopping()
+{
+ var imp=document.getElementById("listShopImplants");
+ var fade=document.getElementById("listShopFaded");
+ var bright=document.getElementById("listShopBright");
+ var shine=document.getElementById("listShopShining");
+
+ for(i=imp.options.length-1; i>=0; i--)
+    imp.remove(i);
+ for(i=fade.options.length-1; i>=0; i--)
+    fade.remove(i);
+ for(i=bright.options.length-1; i>=0; i--)
+    bright.remove(i);
+ for(i=shine.options.length-1; i>=0; i--)
+    shine.remove(i);
+}
+
+function DoShoppingImplant(list,cbondx)
+{
+ var Found=false;
+ var e;
+ var imp;
+
+ switch(cbondx)
+  {
+   case 0: imp=Chest; break;
+   case 1: imp=Ear; break;
+   case 2: imp=Eye; break;
+   case 3: imp=Feet; break;
+   case 4: imp=Head; break;
+   case 5: imp=LArm; break;
+   case 6: imp=LHand; break;
+   case 7: imp=LWrist; break;
+   case 8: imp=Leg; break;
+   case 9: imp=RArm; break;
+   case 10: imp=RHand; break;
+   case 11: imp=RWrist; break;
+   case 12: imp=Waist; break;
+  }
+ for(i=list.length-1; i>=0; i--)
+  {
+   if (list[i].value==imp.ImplantType) Found=true;
+  }
+ if (Found==false)
+  {
+   list[list.length]=new item(imp.ImplantName, imp.ImplantType);
+  }
+}
+
+function DoShoppingClusters(list,clustId)
+{
+ var e;
+ var i;
+ 
+ for(i=0;i<Clusters.length;i++)
+  {
+   if (Clusters[i].ID==clustId)
+    {
+     list[list.length]=new item(Clusters[i].ClusterName, Clusters[i].ID);
+     return;
+    }
+  }
+}
+
+function ProcessQueryString()
+{
+ var params=new URLSearchParams(location.search); // ?cf1=0 
+ var v;
+ var i;
+ var k;
+
+ IsLoading=true;
+
+ for(i=0;i<FadedCBOs.length;i++)
+ {
+  cbo=FadedCBOs[i];
+  if (params.has(cbo.name)==true)
+   {
+    v=params.get(cbo.name);  // it's the cluster #
+    for(k=0;k<cbo.options.length;k++)
+     {
+      if (cbo.options[k].value==v)
+        cbo.selectedIndex=k;
+     }
+   }   
+  }
+  for(i=0;i<BrightCBOs.length;i++)
+  {
+   cbo=BrightCBOs[i];
+   if (params.has(cbo.name)==true)
+   {
+    v=params.get(cbo.name); 
+    v=params.get(cbo.name);  // it's the cluster #
+    for(k=0;k<cbo.options.length;k++)
+     {
+      if (cbo.options[k].value==v)
+        cbo.selectedIndex=k;
+     }
+   }   
+  }
+  for(i=0;i<ShiningCBOs.length;i++)
+  {
+   cbo=ShiningCBOs[i];
+   if (params.has(cbo.name)==true)
+   {
+    v=params.get(cbo.name); 
+    v=params.get(cbo.name);  // it's the cluster #
+    for(k=0;k<cbo.options.length;k++)
+     {
+      if (cbo.options[k].value==v)
+        cbo.selectedIndex=k;
+     }
+   }
+  }
+ IsLoading=false;
+// DropDown_Change();
+}
+
+
+// AO skill categories
+
+var ImprovementTypeAbility = "Abilities";
+var ImprovementTypeBodyDef = "Body&Def";
+var ImprovementTypeMelee = "Melee";
+var ImprovementTypeMeleeSpec = "Melee Spec";
+var ImprovementTypeRanged = "Ranged";
+var ImprovementTypeRangedSpec = "Ranged Spec";
+var ImprovementTypeNanos = "Nanos";
+var ImprovementTypeExplore = "Explore";
+var ImprovementTypeCombatHeal = "Combat&Heal";
+var ImprovementTypeTradeRepair = "Trade";
+var ImprovementTypeAC = "AC";
+var ImprovementTypeMax = "Max";
+var ImprovementTypeJobe = "Jobe";
+
+// implant types
+
+var ImplantHead=1;
+var ImplantEye=2;
+var ImplantEar=3;
+var ImplantChest=4;
+var ImplantRArm=5;
+var ImplantRWrist=6;
+var ImplantRHand=7;
+var ImplantLArm=8;
+var ImplantLWrist=9;
+var ImplantLHand=10;
+var ImplantWaist=11;
+var ImplantLeg=12;
+var ImplantFeet=13;
+
+// array IDs
+
+var NextClusterID=1;
+
+// arrays
+
+var Clusters = new Array();
+var Implants = new Array();
+var FadedCBOs = new Array();
+var BrightCBOs = new Array();
+var ShiningCBOs = new Array();
+
+// implant instances
+
+var Head = new Implant(ImplantHead, "Head");
+var Eye = new Implant(ImplantEye, "Eye");
+var Ear = new Implant(ImplantEar, "Ear");
+var Chest = new Implant(ImplantChest, "Chest");
+var RArm = new Implant(ImplantRArm, "Right Arm");
+var RWrist = new Implant(ImplantRWrist, "Right Wrist");
+var RHand = new Implant(ImplantRHand, "Right Hand");
+var LArm = new Implant(ImplantLArm, "Left Arm");
+var LWrist = new Implant(ImplantLWrist, "Left Wrist");
+var LHand = new Implant(ImplantLHand, "Left Hand");
+var Waist = new Implant(ImplantWaist, "Waist");
+var Leg = new Implant(ImplantLeg, "Legs");
+var Feet = new Implant(ImplantFeet, "Feet"); 
+
+// Load DropDowns
+
+function LoadCBOLists()
+{
+ FadedCBOs[0] = document.getElementById("cboFadeChest");
+ FadedCBOs[1] = document.getElementById("cboFadeEar");
+ FadedCBOs[2] = document.getElementById("cboFadeEye");
+ FadedCBOs[3] = document.getElementById("cboFadeFeet");
+ FadedCBOs[4] = document.getElementById("cboFadeHead");
+ FadedCBOs[5] = document.getElementById("cboFadeLArm");
+ FadedCBOs[6] = document.getElementById("cboFadeLHand");
+ FadedCBOs[7] = document.getElementById("cboFadeLWrist");
+ FadedCBOs[8] = document.getElementById("cboFadeLeg");
+ FadedCBOs[9] = document.getElementById("cboFadeRArm");
+ FadedCBOs[10] = document.getElementById("cboFadeRHand");
+ FadedCBOs[11] = document.getElementById("cboFadeRWrist");
+ FadedCBOs[12] = document.getElementById("cboFadeWaist");
+
+ BrightCBOs[0] = document.getElementById("cboBrightChest");
+ BrightCBOs[1] = document.getElementById("cboBrightEar");
+ BrightCBOs[2] = document.getElementById("cboBrightEye");
+ BrightCBOs[3] = document.getElementById("cboBrightFeet");
+ BrightCBOs[4] = document.getElementById("cboBrightHead");
+ BrightCBOs[5] = document.getElementById("cboBrightLArm");
+ BrightCBOs[6] = document.getElementById("cboBrightLHand");
+ BrightCBOs[7] = document.getElementById("cboBrightLWrist");
+ BrightCBOs[8] = document.getElementById("cboBrightLeg");
+ BrightCBOs[9] = document.getElementById("cboBrightRArm");
+ BrightCBOs[10] = document.getElementById("cboBrightRHand");
+ BrightCBOs[11] = document.getElementById("cboBrightRWrist");
+ BrightCBOs[12] = document.getElementById("cboBrightWaist");
+
+ ShiningCBOs[0] = document.getElementById("cboShineChest");
+ ShiningCBOs[1] = document.getElementById("cboShineEar");
+ ShiningCBOs[2] = document.getElementById("cboShineEye");
+ ShiningCBOs[3] = document.getElementById("cboShineFeet");
+ ShiningCBOs[4] = document.getElementById("cboShineHead");
+ ShiningCBOs[5] = document.getElementById("cboShineLArm");
+ ShiningCBOs[6] = document.getElementById("cboShineLHand");
+ ShiningCBOs[7] = document.getElementById("cboShineLWrist");
+ ShiningCBOs[8] = document.getElementById("cboShineLeg");
+ ShiningCBOs[9] = document.getElementById("cboShineRArm");
+ ShiningCBOs[10] = document.getElementById("cboShineRHand");
+ ShiningCBOs[11] = document.getElementById("cboShineRWrist");
+ ShiningCBOs[12] = document.getElementById("cboShineWaist");
+} 
+
+// add an empty choice to all dropdowns
+
+function AddNulls()
+{
+ var i;
+
+ for(i=0;i<13;i++)
+  {
+   AddNull(FadedCBOs[i]);
+   AddNull(BrightCBOs[i]);
+   AddNull(ShiningCBOs[i]);
+  }
+}
+
+function AddNull(cbo)
+{
+ var opt=document.createElement("option");
+ opt.text=" ";
+ opt.value=0;
+ cbo.options.add(opt);
+}
+
+function LoadComboBoxes()
+{
+ AddShining(ShiningCBOs[0],Chest);
+ AddBright(BrightCBOs[0],Chest);
+ AddFaded(FadedCBOs[0],Chest);
+
+ AddShining(ShiningCBOs[1],Ear);
+ AddBright(BrightCBOs[1],Ear);
+ AddFaded(FadedCBOs[1],Ear);
+
+ AddShining(ShiningCBOs[2],Eye);
+ AddBright(BrightCBOs[2],Eye);
+ AddFaded(FadedCBOs[2],Eye);
+
+ AddShining(ShiningCBOs[3],Feet);
+ AddBright(BrightCBOs[3],Feet);
+ AddFaded(FadedCBOs[3],Feet);
+
+ AddShining(ShiningCBOs[4],Head);
+ AddBright(BrightCBOs[4],Head);
+ AddFaded(FadedCBOs[4],Head);
+
+ AddShining(ShiningCBOs[5],LArm);
+ AddBright(BrightCBOs[5],LArm);
+ AddFaded(FadedCBOs[5],LArm);
+
+ AddShining(ShiningCBOs[6],LHand);
+ AddBright(BrightCBOs[6],LHand);
+ AddFaded(FadedCBOs[6],LHand);
+
+ AddShining(ShiningCBOs[7],LWrist);
+ AddBright(BrightCBOs[7],LWrist);
+ AddFaded(FadedCBOs[7],LWrist);
+
+ AddShining(ShiningCBOs[8],Leg);
+ AddBright(BrightCBOs[8],Leg);
+ AddFaded(FadedCBOs[8],Leg);
+
+ AddShining(ShiningCBOs[9],RArm);
+ AddBright(BrightCBOs[9],RArm);
+ AddFaded(FadedCBOs[9],RArm);
+
+ AddShining(ShiningCBOs[10],RHand);
+ AddBright(BrightCBOs[10],RHand);
+ AddFaded(FadedCBOs[10],RHand);
+
+ AddShining(ShiningCBOs[11],RWrist);
+ AddBright(BrightCBOs[11],RWrist);
+ AddFaded(FadedCBOs[11],RWrist);
+
+ AddShining(ShiningCBOs[12],Waist);
+ AddBright(BrightCBOs[12],Waist);
+ AddFaded(FadedCBOs[12],Waist);
+}
+
+function AddFaded(cbo,imp)
+{
+ var opt;
+ var c;
+
+ for(i=0;i<Clusters.length;i++)
+ {
+  c=Clusters[i]; 
+  if (c.Faded.ImplantType == imp.ImplantType)
+   {
+    opt=document.createElement("option");
+    opt.text=c.ClusterName;
+    opt.value=c.ID;
+    if (c.Category==ImprovementTypeJobe)
+      opt.className="option-jobe";
+    else
+      opt.className="option-norm";
+    cbo.options.add(opt);
+   }
+  }
+}
+
+function AddBright(cbo, imp)
+{
+ var opt;
+ var c;
+
+ for (i = 0; i < Clusters.length; i++) 
+  {
+   c = Clusters[i];
+   if (c.Bright.ImplantType == imp.ImplantType) 
+    {
+     opt = document.createElement("option");
+     opt.text = c.ClusterName;
+     opt.value=c.ID;
+     if (c.Category==ImprovementTypeJobe)
+      opt.className="option-jobe";
+     else
+      opt.className="option-norm";
+     cbo.options.add(opt);
+    }
+  }
+}
+
+function AddShining(cbo, imp) 
+{
+ var opt;
+ var c;
+
+ for (i = 0; i < Clusters.length; i++) 
+  {
+   c = Clusters[i];
+   if (c.Shining.ImplantType == imp.ImplantType) 
+    {
+     opt = document.createElement("option");
+     opt.text = c.ClusterName;
+     opt.value=c.ID;
+     if (c.Category==ImprovementTypeJobe)
+      opt.className="option-jobe";
+    else
+      opt.className="option-norm";
+     cbo.options.add(opt);
+    }
+  }
+}
+
+// Load Specific Popup Choice list
+
+function LoadSpecific(cat)
+ {
+  var list=document.getElementById("listSpecifics");
+  var i;
+  var e;
+
+  for(i=list.length-1; i>=0; i--)
+    list.remove(i);
+  
+  for(i=0;i<Clusters.length;i++)
+  {
+   c=Clusters[i];
+   if (c.Category==cat)
+    {
+     e=document.createElement("option");
+     e.text=c.ClusterName;
+     e.value=c.ID; 
+     list.add(e);
+    }
+  }
+}
+
+// Array Structs
+
+function Implant(imptype,txt)
+{
+ this.ImplantName=txt;
+ this.ImplantType=imptype;
+}
+
+function Cluster(txt, ishine, ibright, ifaded, imptype)
+{
+ this.ClusterName=txt;
+ this.Faded=ifaded;
+ this.Bright=ibright;
+ this.Shining=ishine;
+ this.Category=imptype;
+ this.ID=NextClusterID++;
+}
+
+function PopulateClusters()
+{
+ var i=0;
+
+ Clusters[i++]=new Cluster("1h Blunt", RArm, RWrist, RHand, ImprovementTypeMelee);
+ Clusters[i++]=new Cluster("1h Edged", RArm, RWrist, RHand, ImprovementTypeMelee);
+ Clusters[i++]=new Cluster("2h Blunt", RArm, LArm, Chest, ImprovementTypeMelee);
+ Clusters[i++]=new Cluster("2h Edged", RArm, LArm, Waist, ImprovementTypeMelee);
+ Clusters[i++]=new Cluster("Adventuring", Leg, Waist, Chest, ImprovementTypeExplore); 
+ Clusters[i++]=new Cluster("Agility", Leg, Feet, Waist, ImprovementTypeAbility);
+ Clusters[i++]=new Cluster("Aimed Shot", Eye, RWrist, RHand, ImprovementTypeRangedSpec);
+ Clusters[i++]=new Cluster("Assault Rif", RArm, RHand, Eye, ImprovementTypeRanged);
+ Clusters[i++]=new Cluster("Bio Metamor", Head, Chest, Waist, ImprovementTypeNanos);
+ Clusters[i++]=new Cluster("Body Dev", Chest, Waist, Leg, ImprovementTypeBodyDef);
+ Clusters[i++]=new Cluster("Bow", RArm, LArm, Eye, ImprovementTypeRanged);
+ Clusters[i++]=new Cluster("Bow Spec Att", Head, RHand, RWrist, ImprovementTypeRangedSpec);
+ Clusters[i++]=new Cluster("Brawling", LArm, RArm, Waist, ImprovementTypeMeleeSpec);
+ Clusters[i++]=new Cluster("Break & Entry", RArm, LArm, Chest, ImprovementTypeTradeRepair);
+ Clusters[i++]=new Cluster("Burst", RArm, RWrist, LArm, ImprovementTypeRangedSpec);
+ Clusters[i++]=new Cluster("Chemical AC", Waist, RArm, LArm, ImprovementTypeAC);
+ Clusters[i++]=new Cluster("Chemistry", Head, Eye, RHand, ImprovementTypeTradeRepair);
+ Clusters[i++]=new Cluster("Cold AC", Waist, RHand, LHand, ImprovementTypeAC);
+ Clusters[i++]=new Cluster("Comp Lit", Head, Eye, RHand, ImprovementTypeTradeRepair);
+ Clusters[i++]=new Cluster("Concealment", Feet, Ear, Eye, ImprovementTypeCombatHeal);
+ Clusters[i++]=new Cluster("Dimach", Chest, Head, Waist, ImprovementTypeMeleeSpec);
+ Clusters[i++]=new Cluster("Disease AC", Head, Leg, Chest, ImprovementTypeAC);
+ Clusters[i++]=new Cluster("Dodge Rng", Leg, Feet, Waist, ImprovementTypeBodyDef);
+ Clusters[i++]=new Cluster("Duck Exp", Leg, Waist, Feet, ImprovementTypeBodyDef);
+ Clusters[i++]=new Cluster("Elec Engi", Eye, Head, RHand, ImprovementTypeTradeRepair);
+ Clusters[i++]=new Cluster("Energy AC", Chest, Leg, Waist, ImprovementTypeAC);
+ Clusters[i++]=new Cluster("Evade-ClsC", Feet, Leg, Waist, ImprovementTypeBodyDef);
+ Clusters[i++]=new Cluster("Fast Attack", LHand, RHand, RArm, ImprovementTypeMeleeSpec);
+ Clusters[i++]=new Cluster("Fire AC", Waist, LHand, RHand, ImprovementTypeAC);
+ Clusters[i++]=new Cluster("First Aid", Head, RHand, LHand, ImprovementTypeCombatHeal);
+ Clusters[i++]=new Cluster("Fling Shot", RArm, RHand, RWrist, ImprovementTypeRangedSpec);
+ Clusters[i++]=new Cluster("Full Auto", RArm, RWrist, Waist, ImprovementTypeRangedSpec);
+ Clusters[i++]=new Cluster("Grenade", RArm, Eye, RHand, ImprovementTypeRanged);
+ Clusters[i++]=new Cluster("Heavy Weapons", RArm, Eye, RHand, ImprovementTypeRanged);
+ Clusters[i++]=new Cluster("Imp/Proj AC", Leg, Chest, Waist, ImprovementTypeAC);
+ Clusters[i++]=new Cluster("Intelligence", Head, Eye, Ear, ImprovementTypeAbility);
+ Clusters[i++]=new Cluster("Martial Arts", RHand, Feet, LHand, ImprovementTypeMelee);
+ Clusters[i++]=new Cluster("Matter Crea", Head, RHand, Eye, ImprovementTypeNanos);
+ Clusters[i++]=new Cluster("Matt Metam", Head, Chest, LArm, ImprovementTypeNanos);
+ Clusters[i++]=new Cluster("Max Health", Chest, Waist, Leg, ImprovementTypeMax);
+ Clusters[i++]=new Cluster("Max Nano", Head, Waist, Chest, ImprovementTypeMax);
+ Clusters[i++]=new Cluster("Mech Engi", Head, Eye, RArm, ImprovementTypeTradeRepair);
+ Clusters[i++]=new Cluster("Melee Energy", Head, LWrist, RWrist, ImprovementTypeMelee);
+ Clusters[i++]=new Cluster("Melee Init", Feet, Leg, Waist, ImprovementTypeMelee);
+ Clusters[i++]=new Cluster("Melee AC", Chest, Waist, Leg, ImprovementTypeAC);
+ Clusters[i++]=new Cluster("MG/SMG", RArm, RHand, Chest, ImprovementTypeRanged);
+ Clusters[i++]=new Cluster("Multi Melee", LWrist, Eye, RWrist, ImprovementTypeMelee);
+ Clusters[i++]=new Cluster("Multi Ranged", LWrist, RWrist, Eye, ImprovementTypeRanged);
+ Clusters[i++]=new Cluster("NanoC Init", Head, Eye, Chest, ImprovementTypeNanos);
+ Clusters[i++]=new Cluster("Nano Pool", Chest, Head, Waist, ImprovementTypeBodyDef);
+ Clusters[i++]=new Cluster("Nano Program", Head, Eye, RHand, ImprovementTypeTradeRepair);
+ Clusters[i++]=new Cluster("Nano Resist", Head, RWrist, LWrist, ImprovementTypeBodyDef);
+ Clusters[i++]=new Cluster("Parry(Deflect)", RWrist, LWrist, RArm, ImprovementTypeBodyDef);
+ Clusters[i++]=new Cluster("Perception", Ear, Eye, Head, ImprovementTypeCombatHeal);
+ Clusters[i++]=new Cluster("Pharma Tech", Head, Eye, RHand, ImprovementTypeTradeRepair);
+ Clusters[i++]=new Cluster("Physic Init", Feet, RArm, LArm, ImprovementTypeMelee);
+ Clusters[i++]=new Cluster("Piercing", RArm, LArm, Waist, ImprovementTypeMelee);
+ Clusters[i++]=new Cluster("Pistol", RWrist, RHand, Eye, ImprovementTypeRanged);
+ Clusters[i++]=new Cluster("Psychic", Head, Chest, Ear, ImprovementTypeAbility);
+ Clusters[i++]=new Cluster("Psycho Modi", Head, Eye, Ear, ImprovementTypeNanos);
+ Clusters[i++]=new Cluster("Psychology", Head, Ear, Eye, ImprovementTypeCombatHeal);
+ Clusters[i++]=new Cluster("Quantum FT", Head, Eye, RHand, ImprovementTypeTradeRepair);
+ Clusters[i++]=new Cluster("Radiation AC", Waist, LArm, RArm, ImprovementTypeAC);
+ Clusters[i++]=new Cluster("Ranged Energy", Head, Eye, LHand, ImprovementTypeRanged);
+ Clusters[i++]=new Cluster("Ranged Init", RWrist, Head, RHand, ImprovementTypeRanged);
+ Clusters[i++]=new Cluster("Rifle", Eye, RWrist, LWrist, ImprovementTypeRanged);
+ Clusters[i++]=new Cluster("Riposte", RWrist, LWrist, RArm, ImprovementTypeMeleeSpec);
+ Clusters[i++]=new Cluster("Run Speed", RWrist, LWrist, Leg, ImprovementTypeExplore);
+ Clusters[i++]=new Cluster("Sense", Chest, Waist, Head, ImprovementTypeAbility);
+ Clusters[i++]=new Cluster("Sensory Imp", Head, Eye, Chest, ImprovementTypeNanos);
+ Clusters[i++]=new Cluster("Sharp Object", RWrist, RHand, Eye, ImprovementTypeRangedSpec);
+ Clusters[i++]=new Cluster("Shotgun", RArm, RHand, Waist, ImprovementTypeRanged);
+ Clusters[i++]=new Cluster("Sneak Attack", Feet, RWrist, Eye, ImprovementTypeMeleeSpec);
+ Clusters[i++]=new Cluster("Stamina", Chest, Leg, Waist, ImprovementTypeAbility);
+ Clusters[i++]=new Cluster("Strength", RArm, LArm, Chest, ImprovementTypeAbility);
+ Clusters[i++]=new Cluster("Swimming", Leg, RArm, LArm, ImprovementTypeNanos);
+ Clusters[i++]=new Cluster("Time & Space", Head, RHand, Eye, ImprovementTypeNanos);
+ Clusters[i++]=new Cluster("Trap Disarm", RHand, LHand, Head, ImprovementTypeCombatHeal);
+ Clusters[i++]=new Cluster("Treatment", Head, Eye, RHand, ImprovementTypeCombatHeal);
+ Clusters[i++]=new Cluster("Tutoring", Eye, Ear, Head, ImprovementTypeTradeRepair);
+ Clusters[i++]=new Cluster("Vehicle Air", Eye, Ear, Head, ImprovementTypeExplore);
+ Clusters[i++]=new Cluster("Vehicle Ground", Head, Eye, Ear, ImprovementTypeExplore);
+ Clusters[i++]=new Cluster("Vehicle Water", Head, Eye, Ear, ImprovementTypeExplore);
+ Clusters[i++]=new Cluster("Weaponsmithing", RHand, Head, Eye, ImprovementTypeTradeRepair);
+
+ Clusters[i++]=new Cluster("% Add All Def", LArm, RArm, Feet, ImprovementTypeJobe);
+ Clusters[i++]=new Cluster("% Add All Off", LArm, RArm, Feet, ImprovementTypeJobe);
+
+ Clusters[i++]=new Cluster("% Add. Chem Dam", RHand, LWrist, RWrist, ImprovementTypeJobe);
+ Clusters[i++]=new Cluster("% Add. Energy Dam", RHand, LWrist, RWrist, ImprovementTypeJobe);
+ Clusters[i++]=new Cluster("% Add. Fire Dam", RHand, LWrist, RWrist, ImprovementTypeJobe);
+ Clusters[i++]=new Cluster("% Add. Melee Dam", RHand, LWrist, RWrist, ImprovementTypeJobe);
+ Clusters[i++]=new Cluster("% Add. Poison Dam", RHand, LWrist, RWrist, ImprovementTypeJobe);
+ Clusters[i++]=new Cluster("% Add. Proj Dam", RHand, LWrist, RWrist, ImprovementTypeJobe);
+ Clusters[i++]=new Cluster("% Add.Rad Dam", RHand, LWrist, RWrist, ImprovementTypeJobe);
+
+ Clusters[i++]=new Cluster("% Add XP", Ear, Feet, Leg, ImprovementTypeJobe);
+ Clusters[i++]=new Cluster("Heal Delta", LArm, Feet, Leg, ImprovementTypeJobe);
+ Clusters[i++]=new Cluster("Max NCU", Ear, RWrist, Leg, ImprovementTypeJobe);
+ Clusters[i++]=new Cluster("Nano Delta", RWrist, RArm, Feet, ImprovementTypeJobe);
+ Clusters[i++]=new Cluster("Nano Point Cost", Waist, Ear, LArm, ImprovementTypeJobe);
+ Clusters[i++]=new Cluster("Nano Forumla INTR", Leg, LHand, Chest, ImprovementTypeJobe);
+ Clusters[i++]=new Cluster("RangeInc NF", Eye, Feet, RArm, ImprovementTypeJobe);
+ Clusters[i++]=new Cluster("RangeInc Weap", Eye, Feet, RArm, ImprovementTypeJobe);
+
+ Clusters[i++]=new Cluster("Shield Chemical AC", LHand, Feet, LWrist, ImprovementTypeJobe);
+ Clusters[i++]=new Cluster("Shield Cold AC", LHand, Feet, LWrist, ImprovementTypeJobe);
+ Clusters[i++]=new Cluster("Shield Melee AC", LHand, Feet, LWrist, ImprovementTypeJobe);
+ Clusters[i++]=new Cluster("Shield Poison AC", LHand, Feet, LWrist, ImprovementTypeJobe);
+
+ Clusters[i++]=new Cluster("Shield Energy AC", LWrist, LHand, Leg, ImprovementTypeJobe);
+ Clusters[i++]=new Cluster("Shield Fire AC", LWrist, LHand, Leg, ImprovementTypeJobe);
+ Clusters[i++]=new Cluster("Shield Projectile AC", LWrist, LHand, Leg, ImprovementTypeJobe);
+ Clusters[i++]=new Cluster("Shield Radiation AC", LWrist, LHand, Leg, ImprovementTypeJobe);
+
+ Clusters[i++]=new Cluster("Skill Time Lock Mod", Leg, LHand, Chest, ImprovementTypeJobe);
+}
+
+// Initialization
+
+PopulateClusters();
+LoadCBOLists();
+AddNulls();
+LoadComboBoxes();
+ProcessQueryString();
+
+</script>
+</body>
+</html>
